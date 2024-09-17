@@ -1,0 +1,1131 @@
+//////////////////////////Задание 40: Симуляция банкомата Написать программу, которая симулирует работу банкомата: внесение средств, снятие средств, просмотр баланса.
+//using System;
+
+//namespace ATM
+//{
+//    class Program
+//    {
+//        static decimal balance = 1000; // initial balance
+
+//        static void Main(string[] args)
+//        {
+//            while (true)
+//            {
+//                Console.WriteLine("Банкомат");
+//                Console.WriteLine("---------");
+//                Console.WriteLine("1. Внести средства");
+//                Console.WriteLine("2. Снять средства");
+//                Console.WriteLine("3. Просмотреть баланс");
+//                Console.WriteLine("4. Выход");
+//                Console.Write("Выберите операцию: ");
+//                int choice = Convert.ToInt32(Console.ReadLine());
+//                switch (choice)
+//                {
+//                    case 1:
+//                        Deposit();
+//                        break;
+//                    case 2:
+//                        Withdraw();
+//                        break;
+//                    case 3:
+//                        CheckBalance();
+//                        break;
+//                    case 4:
+//                        Environment.Exit(0);
+//                        break;
+//                    default:
+//                        Console.WriteLine("Неправильный выбор. Попробуйте еще раз.");
+//                        break;
+//                }
+//            }
+//        }
+
+//        static void Deposit()
+//        {
+//            Console.Write("Введите сумму для внесения: ");
+//            decimal amount = Convert.ToDecimal(Console.ReadLine());
+//            if (amount > 0)
+//            {
+//                balance += amount;
+//                Console.WriteLine($"Средства внесены успешно. Новый баланс: {balance}");
+//            }
+//            else
+//            {
+//                Console.WriteLine("Неправильная сумма. Попробуйте еще раз.");
+//            }
+//        }
+
+//        static void Withdraw()
+//        {
+//            Console.Write("Введите сумму для снятия: ");
+//            decimal amount = Convert.ToDecimal(Console.ReadLine());
+//            if (amount > 0 && amount <= balance)
+//            {
+//                balance -= amount;
+//                Console.WriteLine($"Средства сняты успешно. Новый баланс: {balance}");
+//            }
+//            else
+//            {
+//                Console.WriteLine("Неправильная сумма или недостаточно средств. Попробуйте еще раз.");
+//            }
+//        }
+
+//        static void CheckBalance()
+//        {
+//            Console.WriteLine($"Текущий баланс: {balance}");
+//        }
+//    }
+//}
+/////////////////////////////////////Задание 41: Парсинг CSV-файловСоздать программу, которая читает данные из CSV-файла и выводит их в формате таблицы.
+//using System;
+//using System.IO;
+//using System.Linq;
+
+//namespace CSVParser
+//{
+//    class Program
+//    {
+//        static void Main(string[] args)
+//        {
+//            Console.Write("Enter the path to the CSV file: ");
+//            string filePath = Console.ReadLine();
+//            if (File.Exists(filePath))
+//            {
+//                string[] lines = File.ReadAllLines(filePath);
+//                string[] headers = lines[0].Split(',');
+//                Console.WriteLine(new string('-', headers.Length * 10));
+//                Console.WriteLine(string.Join(" | ", headers));
+//                Console.WriteLine(new string('-', headers.Length * 10));
+//                for (int i = 1; i < lines.Length; i++)
+//                {
+//                    string[] values = lines[i].Split(',');
+//                    Console.WriteLine(string.Join(" | ", values));
+//                }
+//            }
+//            else
+//            {
+//                Console.WriteLine("File not found.");
+//            }
+//        }
+//    }
+//}
+//////////////////////////////Задание 42: Калькулятор средней температуры Разработать приложение, которое вычисляет среднюю температуру за неделю по введенным пользователем данным.
+//using System;
+
+//namespace TemperatureCalculator
+//{
+//    class Program
+//    {
+//        static void Main(string[] args)
+//        {
+//            decimal[] temperatures = new decimal[7];
+
+//            Console.WriteLine("Введите температуры за неделю:");
+//            for (int i = 0; i < 7; i++)
+//            {
+//                Console.Write($"День {i + 1}: ");
+//                temperatures[i] = Convert.ToDecimal(Console.ReadLine());
+//            }
+
+//            decimal averageTemperature = CalculateAverageTemperature(temperatures);
+
+//            Console.WriteLine($"Средняя температура за неделю: {averageTemperature:F2}°C");
+//        }
+
+//        static decimal CalculateAverageTemperature(decimal[] temperatures)
+//        {
+//            decimal sum = 0;
+//            foreach (decimal temperature in temperatures)
+//            {
+//                sum += temperature;
+//            }
+//            return sum / temperatures.Length;
+//        }
+//    }
+//}
+/////////////////////////////Задание 43:Игра "Змейка"Написать консольное приложение, которое симулирует игру "Змейка". Змейка должна двигаться по экрану и увеличиваться при "съедании" пищи
+//using System;
+//using System.Collections.Generic;
+
+//namespace SnakeGame
+//{
+//    class Program
+//    {
+//        static void Main(string[] args)
+//        {
+//            const int width = 20;
+//            const int height = 20;
+//            const char snakeSymbol = '*';
+//            const char foodSymbol = '#';
+
+//            Random random = new Random();
+//            List<(int, int)> snake = new List<(int, int)>() { (0, 0) };
+//            (int, int) food = (random.Next(width), random.Next(height));
+//            (int, int) direction = (1, 0);
+
+//            while (true)
+//            {
+//                Console.Clear();
+//                DrawGameBoard(width, height, snake, food, snakeSymbol, foodSymbol);
+
+//                if (Console.KeyAvailable)
+//                {
+//                    ConsoleKeyInfo key = Console.ReadKey(true);
+//                    switch (key.Key)
+//                    {
+//                        case ConsoleKey.UpArrow:
+//                            direction = (0, -1);
+//                            break;
+//                        case ConsoleKey.DownArrow:
+//                            direction = (0, 1);
+//                            break;
+//                        case ConsoleKey.LeftArrow:
+//                            direction = (-1, 0);
+//                            break;
+//                        case ConsoleKey.RightArrow:
+//                            direction = (1, 0);
+//                            break;
+//                    }
+//                }
+
+//                (int, int) newHead = (snake[0].Item1 + direction.Item1, snake[0].Item2 + direction.Item2);
+//                snake.Insert(0, newHead);
+
+//                if (newHead == food)
+//                {
+//                    food = (random.Next(width), random.Next(height));
+//                }
+//                else
+//                {
+//                    snake.RemoveAt(snake.Count - 1);
+//                }
+
+//                if (IsCollision(snake, width, height))
+//                {
+//                    Console.WriteLine("Game over!");
+//                    break;
+//                }
+
+//                System.Threading.Thread.Sleep(100);
+//            }
+//        }
+
+//        static void DrawGameBoard(int width, int height, List<(int, int)> snake, (int, int) food, char snakeSymbol, char foodSymbol)
+//        {
+//            for (int y = 0; y < height; y++)
+//            {
+//                for (int x = 0; x < width; x++)
+//                {
+//                    if (snake.Contains((x, y)))
+//                    {
+//                        Console.Write(snakeSymbol);
+//                    }
+//                    else if ((x, y) == food)
+//                    {
+//                        Console.Write(foodSymbol);
+//                    }
+//                    else
+//                    {
+//                        Console.Write(' ');
+//                    }
+//                }
+//                Console.WriteLine();
+//            }
+//        }
+
+//        static bool IsCollision(List<(int, int)> snake, int width, int height)
+//        {
+//            (int, int) head = snake[0];
+//            if (head.Item1 < 0 || head.Item1 >= width || head.Item2 < 0 || head.Item2 >= height)
+//            {
+//                return true;
+//            }
+//            for (int i = 1; i < snake.Count; i++)
+//            {
+//                if (snake[i] == head)
+//                {
+//                    return true;
+//                }
+//            }
+//            return false;
+//        }
+//    }
+//}
+/////////////////////////////Задание 44: Автоматический контроль версий Создать программу, которая отслеживает изменения в текстовых файлах в указанной директории и автоматически сохраняет копии изменений с отметкой времени
+//using System;
+//using System.IO;
+//using System.Linq;
+
+//namespace VersionControl
+//{
+//    class Program
+//    {
+//        static void Main(string[] args)
+//        {
+//            Console.Write("Enter the directory path: ");
+//            string directoryPath = Console.ReadLine();
+
+//            if (!Directory.Exists(directoryPath))
+//            {
+//                Console.WriteLine("Directory not found.");
+//                return;
+//            }
+
+//            Console.WriteLine("Version control started. Press any key to stop.");
+//            Console.WriteLine("------------------------------------------------");
+
+//            FileSystemWatcher watcher = new FileSystemWatcher(directoryPath);
+//            watcher.NotifyFilter = NotifyFilters.LastWrite;
+//            watcher.Filter = "*.txt";
+//            watcher.Changed += OnChanged;
+//            watcher.EnableRaisingEvents = true;
+
+//            Console.ReadKey();
+
+//            watcher.EnableRaisingEvents = false;
+//            watcher.Dispose();
+//        }
+
+//        static void OnChanged(object source, FileSystemEventArgs e)
+//        {
+//            string filePath = e.FullPath;
+//            string fileContent = File.ReadAllText(filePath);
+//            string backupPath = GetBackupPath(filePath);
+
+//            File.WriteAllText(backupPath, fileContent);
+
+//            Console.WriteLine($"Backup created: {backupPath}");
+//        }
+
+//        static string GetBackupPath(string filePath)
+//        {
+//            string fileName = Path.GetFileName(filePath);
+//            string directoryPath = Path.GetDirectoryName(filePath);
+//            string timestamp = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
+//            string backupFileName = $"{fileName}_{timestamp}";
+//            string backupPath = Path.Combine(directoryPath, backupFileName);
+
+//            return backupPath;
+//        }
+//    }
+//}
+/////////////////////////////Задание 45:Генерация отчетов Написать программу, которая генерирует отчет в текстовом формате на основе введенных пользователем данных (например, отчет по продажам, отчет по выполнению задач и т.д.).
+//using System;
+//using System.Collections.Generic;
+
+//namespace ReportGenerator
+//{
+//    class Program
+//    {
+//        static void Main(string[] args)
+//        {
+//            Console.WriteLine("Report Generator");
+//            Console.WriteLine("---------------");
+
+//            Console.Write("Enter report type (Sales, Tasks, etc.): ");
+//            string reportType = Console.ReadLine();
+
+//            Console.Write("Enter report title: ");
+//            string reportTitle = Console.ReadLine();
+
+//            List<ReportItem> reportItems = new List<ReportItem>();
+
+//            while (true)
+//            {
+//                Console.Write("Enter item name (or 'done' to finish): ");
+//                string itemName = Console.ReadLine();
+
+//                if (itemName.ToLower() == "done")
+//                {
+//                    break;
+//                }
+
+//                Console.Write("Enter item value: ");
+//                string itemValue = Console.ReadLine();
+
+//                reportItems.Add(new ReportItem(itemName, itemValue));
+//            }
+
+//            GenerateReport(reportType, reportTitle, reportItems);
+//        }
+
+//        static void GenerateReport(string reportType, string reportTitle, List<ReportItem> reportItems)
+//        {
+//            string report = $"** {reportType} Report **\n";
+//            report += $"** {reportTitle} **\n";
+//            report += "---------------------\n";
+
+//            foreach (ReportItem item in reportItems)
+//            {
+//                report += $"{item.Name}: {item.Value}\n";
+//            }
+
+//            Console.WriteLine(report);
+//        }
+//    }
+
+//    class ReportItem
+//    {
+//        public string Name { get; set; }
+//        public string Value { get; set; }
+
+//        public ReportItem(string name, string value)
+//        {
+//            Name = name;
+//            Value = value;
+//        }
+//    }
+//}
+////////////////////////////Задание 46: Учет посетителей мероприятия Создать приложение для учета посетителей мероприятия. Программа должна позволять добавлять посетителей, отмечать их присутствие и выводить список всех посетителей
+//using System;
+//using System.Collections.Generic;
+
+//namespace EventAttendanceTracker
+//{
+//    class Program
+//    {
+//        static List<Attendee> attendees = new List<Attendee>();
+
+//        static void Main(string[] args)
+//        {
+//            Console.WriteLine("Event Attendance Tracker");
+//            Console.WriteLine("---------------------");
+
+//            while (true)
+//            {
+//                Console.WriteLine("Menu:");
+//                Console.WriteLine("1. Add attendee");
+//                Console.WriteLine("2. Mark attendance");
+//                Console.WriteLine("3. View attendees");
+//                Console.WriteLine("4. Exit");
+
+//                Console.Write("Enter your choice: ");
+//                int choice = Convert.ToInt32(Console.ReadLine());
+
+//                switch (choice)
+//                {
+//                    case 1:
+//                        AddAttendee();
+//                        break;
+//                    case 2:
+//                        MarkAttendance();
+//                        break;
+//                    case 3:
+//                        ViewAttendees();
+//                        break;
+//                    case 4:
+//                        return;
+//                    default:
+//                        Console.WriteLine("Invalid choice. Please try again.");
+//                        break;
+//                }
+//            }
+//        }
+
+//        static void AddAttendee()
+//        {
+//            Console.Write("Enter attendee name: ");
+//            string name = Console.ReadLine();
+
+//            Console.Write("Enter attendee email: ");
+//            string email = Console.ReadLine();
+
+//            Attendee attendee = new Attendee(name, email);
+//            attendees.Add(attendee);
+
+//            Console.WriteLine("Attendee added successfully.");
+//        }
+
+//        static void MarkAttendance()
+//        {
+//            Console.Write("Enter attendee email: ");
+//            string email = Console.ReadLine();
+
+//            Attendee attendee = attendees.Find(a => a.Email == email);
+
+//            if (attendee != null)
+//            {
+//                attendee.IsPresent = true;
+//                Console.WriteLine("Attendance marked successfully.");
+//            }
+//            else
+//            {
+//                Console.WriteLine("Attendee not found.");
+//            }
+//        }
+
+//        static void ViewAttendees()
+//        {
+//            Console.WriteLine("Attendees:");
+//            Console.WriteLine("---------");
+
+//            foreach (Attendee attendee in attendees)
+//            {
+//                Console.WriteLine($"{attendee.Name} ({attendee.Email}) - {(attendee.IsPresent ? "Present" : "Absent")}");
+//            }
+//        }
+//    }
+
+//    class Attendee
+//    {
+//        public string Name { get; set; }
+//        public string Email { get; set; }
+//        public bool IsPresent { get; set; }
+
+//        public Attendee(string name, string email)
+//        {
+//            Name = name;
+//            Email = email;
+//            IsPresent = false;
+//        }
+//    }
+//}
+//////////////////////Задание 47: Планировщик задач Разработать программу, которая позволяет пользователю создавать задачи,задавать для них время выполнения и уведомляет о наступлении времени выполнения задачи
+//using System;
+//using System.Collections.Generic;
+//using System.Threading;
+
+//namespace TaskScheduler
+//{
+//    class Program
+//    {
+//        // Список задач
+//        static List<Task> tasks = new List<Task>();
+
+//        static void Main(string[] args)
+//        {
+//            Console.WriteLine("Планировщик задач");
+//            Console.WriteLine("-------------");
+
+//            while (true)
+//            {
+//                Console.WriteLine("Меню:");
+//                Console.WriteLine("1. Создать задачу");
+//                Console.WriteLine("2. Просмотреть задачи");
+//                Console.WriteLine("3. Выход");
+
+//                Console.Write("Введите ваш выбор: ");
+//                int choice = Convert.ToInt32(Console.ReadLine());
+
+//                switch (choice)
+//                {
+//                    case 1:
+//                        CreateTask();
+//                        break;
+//                    case 2:
+//                        ViewTasks();
+//                        break;
+//                    case 3:
+//                        return;
+//                    default:
+//                        Console.WriteLine("Неверный выбор. Пожалуйста, попробуйте снова.");
+//                        break;
+//                }
+
+//                // Проверяем задачи на предмет наступления времени выполнения
+//                CheckTasks();
+//            }
+//        }
+
+//        // Создаем новую задачу
+//        static void CreateTask()
+//        {
+//            Console.Write("Введите имя задачи: ");
+//            string name = Console.ReadLine();
+
+//            Console.Write("Введите время выполнения задачи (HH:mm): ");
+//            string time = Console.ReadLine();
+
+//            Task task = new Task(name, time);
+//            tasks.Add(task);
+
+//            Console.WriteLine("Задача создана успешно.");
+//        }
+
+//        // Просматриваем список задач
+//        static void ViewTasks()
+//        {
+//            Console.WriteLine("Задачи:");
+//            Console.WriteLine("------");
+
+//            foreach (Task task in tasks)
+//            {
+//                Console.WriteLine($"{task.Name} - {task.Time}");
+//            }
+//        }
+
+//        // Проверяем задачи на предмет наступления времени выполнения
+//        static void CheckTasks()
+//        {
+//            foreach (Task task in tasks)
+//            {
+//                if (task.Time == DateTime.Now.ToString("HH:mm"))
+//                {
+//                    Console.WriteLine($"Задача '{task.Name}' должна быть выполнена сейчас!");
+//                    Thread.Sleep(1000); // Пауза на 1 секунду, чтобы избежать множественных уведомлений
+//                }
+//            }
+//        }
+//    }
+
+//    // Класс задачи
+//    class Task
+//    {
+//        public string Name { get; set; }
+//        public string Time { get; set; }
+
+//        public Task(string name, string time)
+//        {
+//            Name = name;
+//            Time = time;
+//        }
+//    }
+//}
+///////////////////////////////////Задание 48: Анализ продаж Написать приложение, которое анализирует данные о продажах и выводит статистику по проданным товарам (общая сумма продаж, количество проданных единиц каждого товара и т.д.)
+//using System;
+//using System.Collections.Generic;
+//using System.Linq;
+
+//namespace SalesAnalyzer
+//{
+//    class Program
+//    {
+//        static void Main(string[] args)
+//        {
+//            Console.WriteLine("Анализатор продаж");
+//            Console.WriteLine("-------------");
+
+//            // Пример данных о продажах
+//            List<Sale> sales = new List<Sale>
+//            {
+//                new Sale { ProductName = "Продукт А", Quantity = 2, Price = 10.99m },
+//                new Sale { ProductName = "Продукт Б", Quantity = 3, Price = 5.99m },
+//                new Sale { ProductName = "Продукт А", Quantity = 1, Price = 10.99m },
+//                new Sale { ProductName = "Продукт В", Quantity = 2, Price = 7.99m },
+//                new Sale { ProductName = "Продукт Б", Quantity = 2, Price = 5.99m },
+//            };
+
+//            // Анализ данных о продажах
+//            AnalyzeSales(sales);
+
+//            Console.ReadLine();
+//        }
+
+//        static void AnalyzeSales(List<Sale> sales)
+//        {
+//            // Расчет общей суммы продаж
+//            decimal totalSalesAmount = sales.Sum(s => s.Quantity * s.Price);
+
+//            // Расчет общего количества каждого товара
+//            var productQuantities = sales
+//                .GroupBy(s => s.ProductName)
+//                .Select(g => new { ProductName = g.Key, Quantity = g.Sum(s => s.Quantity) });
+
+//            // Вывод статистики
+//            Console.WriteLine("Статистика:");
+//            Console.WriteLine("-----------");
+//            Console.WriteLine($"Общая сумма продаж: {totalSalesAmount:C}");
+//            Console.WriteLine("Количество товаров:");
+//            foreach (var productQuantity in productQuantities)
+//            {
+//                Console.WriteLine($"{productQuantity.ProductName}: {productQuantity.Quantity} единиц");
+//            }
+//        }
+//    }
+
+//    class Sale
+//    {
+//        public string ProductName { get; set; }
+//        public int Quantity { get; set; }
+//        public decimal Price { get; set; }
+//    }
+//}
+/////////////////////////////////Задание 49: Игра "Виселица" Создать консольное приложение, которое симулирует игру "Виселица". Пользователь должен угадывать загаданное слово по буквам
+//using System;
+//using System.Collections.Generic;
+
+//namespace HangmanGame
+//{
+//    class Program
+//    {
+//        static void Main(string[] args)
+//        {
+//            Console.WriteLine("Игра Виселица");
+//            Console.WriteLine("------------");
+
+//            // Ask the user to input the secret word
+//            Console.WriteLine("Введите загаданное слово:");
+//            string secretWord = Console.ReadLine();
+
+//            // Количество ошибок
+//            int mistakes = 0;
+
+//            // Список угаданных букв
+//            List<char> guessedLetters = new List<char>();
+
+//            // Игра продолжается, пока не будет угадано слово или не будет превышено количество ошибок
+//            while (true)
+//            {
+//                Console.WriteLine("Угадайте букву:");
+//                char letter = Console.ReadLine()[0];
+
+//                // Проверка, была ли буква уже угадана
+//                if (guessedLetters.Contains(letter))
+//                {
+//                    Console.WriteLine("Вы уже угадали эту букву!");
+//                    continue;
+//                }
+
+//                // Добавление буквы к списку угаданных букв
+//                guessedLetters.Add(letter);
+
+//                // Проверка, есть ли буква в загаданном слове
+//                if (secretWord.Contains(letter))
+//                {
+//                    Console.WriteLine("Буква есть в слове!");
+//                }
+//                else
+//                {
+//                    Console.WriteLine("Буквы нет в слове!");
+//                    mistakes++;
+//                }
+
+//                // Вывод текущего состояния игры
+//                Console.WriteLine("Текущее состояние:");
+//                bool won = true;
+//                foreach (char c in secretWord)
+//                {
+//                    if (guessedLetters.Contains(c))
+//                    {
+//                        Console.Write(c + " ");
+//                    }
+//                    else
+//                    {
+//                        Console.Write("_ ");
+//                        won = false;
+//                    }
+//                }
+//                Console.WriteLine();
+
+//                // Вывод виселицы
+//                Console.WriteLine("Виселица:");
+//                switch (mistakes)
+//                {
+//                    case 0:
+//                        Console.WriteLine("   _____");
+//                        break;
+//                    case 1:
+//                        Console.WriteLine("   _____");
+//                        Console.WriteLine("  /     |");
+//                        break;
+//                    case 2:
+//                        Console.WriteLine("   _____");
+//                        Console.WriteLine("  /     |");
+//                        Console.WriteLine(" /      |");
+//                        break;
+//                    case 3:
+//                        Console.WriteLine("   _____");
+//                        Console.WriteLine("  /     |");
+//                        Console.WriteLine(" /      |");
+//                        Console.WriteLine("|       |");
+//                        break;
+//                    case 4:
+//                        Console.WriteLine("   _____");
+//                        Console.WriteLine("  /     |");
+//                        Console.WriteLine(" /      |");
+//                        Console.WriteLine("|       |");
+//                        Console.WriteLine("|       O");
+//                        break;
+//                    case 5:
+//                        Console.WriteLine("   _____");
+//                        Console.WriteLine("  /     |");
+//                        Console.WriteLine(" /      |");
+//                        Console.WriteLine("|       |");
+//                        Console.WriteLine("|       O");
+//                        Console.WriteLine("|      /");
+//                        break;
+//                    case 6:
+//                        Console.WriteLine("   _____");
+//                        Console.WriteLine("  /     |");
+//                        Console.WriteLine(" /      |");
+//                        Console.WriteLine("|       |");
+//                        Console.WriteLine("|       O");
+//                        Console.WriteLine("|      /|");
+//                        break;
+//                }
+
+//                // Проверка, было ли угадано слово
+//                if (won)
+//                {
+//                    Console.WriteLine("Вы угадали слово!");
+//                    break;
+//                }
+
+//                // Проверка, не было ли превышено количество ошибок
+//                if (mistakes == 6)
+//                {
+//                    Console.WriteLine("Вы проиграли! Загаданное слово было: " + secretWord);
+//                    break;
+//                }
+//            }
+
+//            Console.ReadLine();
+//        }
+//    }
+//}
+//////////////////////////////////////Задание 50: Система опросов Разработать систему опросов, которая позволяет создавать опросы, добавлять в них вопросы и варианты ответов, а затем собирать и анализировать ответы пользователей
+//Survey survey = new Survey("Мой Опрос");
+
+//Question question1 = new Question("Какой ваш любимый цвет?", survey);
+//question1.AddOption(new Option("Красный"));
+//question1.AddOption(new Option("Синий"));
+//question1.AddOption(new Option("Зеленый"));
+//survey.AddQuestion(question1);
+
+//Question question2 = new Question("Сколько вам лет?", survey);
+//question2.AddOption(new Option("18-24"));
+//question2.AddOption(new Option("25-34"));
+//question2.AddOption(new Option("35-44"));
+//survey.AddQuestion(question2);
+
+//survey.DisplaySurvey();
+//survey.CollectAnswers();
+//survey.AnalyzeAnswers();
+//public class Survey
+//{
+//    // Заголовок опроса
+//    public string Title { get; set; }
+//    // Список вопросов в опросе
+//    public List<Question> Questions { get; set; }
+
+//    public Survey(string title)
+//    {
+//        Title = title;
+//        Questions = new List<Question>();
+//    }
+
+//    // Добавление вопроса в опрос
+//    public void AddQuestion(Question question)
+//    {
+//        Questions.Add(question);
+//    }
+
+//    // Отображение опроса
+//    public void DisplaySurvey()
+//    {
+//        Console.WriteLine($"Опрос: {Title}");
+//        foreach (var question in Questions)
+//        {
+//            question.DisplayQuestion();
+//        }
+//    }
+
+//    // Сбор ответов пользователей
+//    public void CollectAnswers()
+//    {
+//        foreach (var question in Questions)
+//        {
+//            question.CollectAnswer();
+//        }
+//    }
+
+//    // Анализ ответов пользователей
+//    public void AnalyzeAnswers()
+//    {
+//        foreach (var question in Questions)
+//        {
+//            question.AnalyzeAnswer();
+//        }
+//    }
+//}
+
+//public class Question
+//{
+//    // Текст вопроса
+//    public string Text { get; set; }
+//    // Список вариантов ответов
+//    public List<Option> Options { get; set; }
+//    // Выбранный вариант ответа
+//    public Option SelectedOption { get; set; }
+//    public Survey Survey { get; set; }
+
+//    public Question(string text, Survey survey)
+//    {
+//        Text = text;
+//        Options = new List<Option>();
+//        Survey = survey;
+//    }
+
+//    // Добавление варианта ответа
+//    public void AddOption(Option option)
+//    {
+//        Options.Add(option);
+//    }
+
+//    // Отображение вопроса
+//    public void DisplayQuestion()
+//    {
+//        Console.WriteLine($"Вопрос: {Text}");
+//        foreach (var option in Options)
+//        {
+//            Console.WriteLine($"  {option.Text}");
+//        }
+//    }
+
+//    // Сбор ответа пользователя
+//    public void CollectAnswer()
+//    {
+//        Console.Write("Введите ваш ответ: ");
+//        string answer = Console.ReadLine();
+//        foreach (var option in Options)
+//        {
+//            if (option.Text == answer)
+//            {
+//                SelectedOption = option;
+//                break;
+//            }
+//        }
+//        if (SelectedOption == null)
+//        {
+//            Console.WriteLine("Неверный ответ. Пожалуйста, выберите один из вариантов.");
+//        }
+//    }
+
+//    // Анализ ответа
+//    public void AnalyzeAnswer()
+//    {
+//        if (SelectedOption != null)
+//        {
+//            Console.WriteLine($"Ответ: {SelectedOption.Text}");
+//            // Дополнительная логика анализа может быть добавлена здесь
+//            foreach (var option in Options)
+//            {
+//                int count = 0;
+//                foreach (var question in Survey.Questions)
+//                {
+//                    if (question.SelectedOption == option)
+//                    {
+//                        count++;
+//                    }
+//                }
+//                Console.WriteLine($"Вариант '{option.Text}' был выбран {count} раз(а).");
+//            }
+//        }
+//        else
+//        {
+//            Console.WriteLine("Нет ответа.");
+//        }
+//    }
+//}
+
+//public class Option
+//{
+//    // Текст варианта ответа
+//    public string Text { get; set; }
+
+//    public Option(string text)
+//    {
+//        Text = text;
+//    }
+//}
+/////////////////////////////////////////Задание 51: Анализ погодных данных Создать программу, которая анализирует исторические данные о погоде (например, из CSV-файла) и выводит статистику по месяцам (средняя температура, количество осадков и т.д.)
+//using System;
+//using System.Collections.Generic;
+//using System.IO;
+//using System.Linq;
+
+//namespace WeatherDataAnalyzer
+//{
+//    class Program
+//    {
+//        static void Main(string[] args)
+//        {
+//            // Загрузка данных о погоде из CSV-файла
+//            string[] lines = File.ReadAllLines("weather_data.csv");
+//            List<WeatherData> weatherDataList = new List<WeatherData>();
+//            foreach (string line in lines.Skip(1)) // пропустить строку заголовка
+//            {
+//                string[] columns = line.Split(',');
+//                WeatherData weatherData = new WeatherData
+//                {
+//                    Date = DateTime.Parse(columns[0]),
+//                    Temperature = double.Parse(columns[1]),
+//                    Precipitation = double.Parse(columns[2]),
+//                    // добавить больше столбцов, если необходимо
+//                };
+//                weatherDataList.Add(weatherData);
+//            }
+
+//            // Группировка данных по месяцам
+//            var monthlyData = weatherDataList.GroupBy(x => x.Date.Month);
+
+//            // Расчёт статистики для каждого месяца
+//            foreach (var monthGroup in monthlyData)
+//            {
+//                int month = monthGroup.Key;
+//                double avgTemperature = monthGroup.Average(x => x.Temperature);
+//                double totalPrecipitation = monthGroup.Sum(x => x.Precipitation);
+//                // добавить больше статистики, если необходимо
+
+//                Console.WriteLine($"Месяц {month}:");
+//                Console.WriteLine($"  Средняя температура: {avgTemperature:F2}°C");
+//                Console.WriteLine($"  Общий объём осадков: {totalPrecipitation:F2} мм");
+//                // добавить больше статистики, если необходимо
+//                Console.WriteLine();
+//            }
+//        }
+//    }
+
+//    class WeatherData
+//    {
+//        public DateTime Date { get; set; }
+//        public double Temperature { get; set; }
+//        public double Precipitation { get; set; }
+//        // добавить больше свойств, если необходимо
+//    }
+//}
+////////////////////Задание 52: Система учета книг в библиотеке Разработать консольное приложение для учета книг в библиотеке. Реализовать функции добавления, удаления, редактирования и поиска книг, а также возможность вывода списка всех книг
+//using System;
+//using System.Collections.Generic;
+
+//namespace LibraryBookManagement
+//{
+//    class Program
+//    {
+//        // Список книг в библиотеке
+//        static List<Book> bookList = new List<Book>();
+
+//        static void Main(string[] args)
+//        {
+//            while (true)
+//            {
+//                Console.WriteLine("Система учета книг в библиотеке");
+//                Console.WriteLine("1. Добавить книгу");
+//                Console.WriteLine("2. Удалить книгу");
+//                Console.WriteLine("3. Редактировать книгу");
+//                Console.WriteLine("4. Найти книгу");
+//                Console.WriteLine("5. Список всех книг");
+//                Console.WriteLine("6. Выход");
+//                Console.Write("Выберите опцию: ");
+//                int option = int.Parse(Console.ReadLine());
+
+//                switch (option)
+//                {
+//                    case 1:
+//                        AddBook();
+//                        break;
+//                    case 2:
+//                        RemoveBook();
+//                        break;
+//                    case 3:
+//                        EditBook();
+//                        break;
+//                    case 4:
+//                        SearchBook();
+//                        break;
+//                    case 5:
+//                        ListAllBooks();
+//                        break;
+//                    case 6:
+//                        return;
+//                    default:
+//                        Console.WriteLine("Неверная опция. Пожалуйста, попробуйте снова.");
+//                        break;
+//                }
+//            }
+//        }
+
+//        // Добавление книги
+//        static void AddBook()
+//        {
+//            Console.Write("Введите название книги: ");
+//            string title = Console.ReadLine();
+//            Console.Write("Введите автора книги: ");
+//            string author = Console.ReadLine();
+//            Console.Write("Введите год издания книги: ");
+//            int year = int.Parse(Console.ReadLine());
+
+//            Book book = new Book { Title = title, Author = author, Year = year };
+//            bookList.Add(book);
+//            Console.WriteLine("Книга добавлена успешно!");
+//        }
+
+//        // Удаление книги
+//        static void RemoveBook()
+//        {
+//            Console.Write("Введите название книги: ");
+//            string title = Console.ReadLine();
+//            Book bookToRemove = bookList.Find(b => b.Title == title);
+//            if (bookToRemove != null)
+//            {
+//                bookList.Remove(bookToRemove);
+//                Console.WriteLine("Книга удалена успешно!");
+//            }
+//            else
+//            {
+//                Console.WriteLine("Книга не найдена.");
+//            }
+//        }
+
+//        // Редактирование книги
+//        static void EditBook()
+//        {
+//            Console.Write("Введите название книги: ");
+//            string title = Console.ReadLine();
+//            Book bookToEdit = bookList.Find(b => b.Title == title);
+//            if (bookToEdit != null)
+//            {
+//                Console.Write("Введите новое название книги: ");
+//                bookToEdit.Title = Console.ReadLine();
+//                Console.Write("Введите нового автора книги: ");
+//                bookToEdit.Author = Console.ReadLine();
+//                Console.Write("Введите новый год издания книги: ");
+//                bookToEdit.Year = int.Parse(Console.ReadLine());
+//                Console.WriteLine("Книга отредактирована успешно!");
+//            }
+//            else
+//            {
+//                Console.WriteLine("Книга не найдена.");
+//            }
+//        }
+
+//        // Поиск книги
+//        static void SearchBook()
+//        {
+//            Console.Write("Введите название книги или автора: ");
+//            string searchQuery = Console.ReadLine();
+//            List<Book> searchResults = bookList.FindAll(b => b.Title.Contains(searchQuery) || b.Author.Contains(searchQuery));
+//            if (searchResults.Count > 0)
+//            {
+//                Console.WriteLine("Результаты поиска:");
+//                foreach (Book book in searchResults)
+//                {
+//                    Console.WriteLine($"Название: {book.Title}, Автор: {book.Author}, Год: {book.Year}");
+//                }
+//            }
+//            else
+//            {
+//                Console.WriteLine("Книги не найдены.");
+//            }
+//        }
+
+//        // Список всех книг
+//        static void ListAllBooks()
+//        {
+//            Console.WriteLine("Все книги:");
+//            foreach (Book book in bookList)
+//            {
+//                Console.WriteLine($"Название: {book.Title}, Автор: {book.Author}, Год: {book.Year}");
+//            }
+//        }
+//    }
+
+//    class Book
+//    {
+//        public string Title { get; set; }
+//        public string Author { get; set; }
+//        public int Year { get; set; }
+//    }
+//}
+
+
